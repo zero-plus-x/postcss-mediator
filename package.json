@@ -1,0 +1,39 @@
+{
+  "name": "postcss-mediator",
+  "version": "1.0.0",
+  "description": "A PostCSS plugin to help the development of responsive webapps",
+  "main": "index.js",
+  "scripts": {
+    "test": "node ./test/test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zero-plus-x/postcss-mediator.git"
+  },
+  "keywords": [
+    "postcss",
+    "postcss-mediator",
+    "postcss-plugin",
+    "plugin",
+    "inline",
+    "properties",
+    "media",
+    "query",
+    "query",
+    "css"
+  ],
+  "author": "zero-plus-x",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/zero-plus-x/postcss-mediator/issues"
+  },
+  "homepage": "https://github.com/zero-plus-x/postcss-mediator#readme",
+  "dependencies": {
+    "postcss": "^5.0.14"
+  },
+  "devDependencies": {
+    "gulp": "^3.9.0",
+    "gulp-postcss": "^6.0.1",
+    "gulp-shell": "^0.5.2"
+  }
+}
