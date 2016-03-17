@@ -1,5 +1,6 @@
 import postcss from 'postcss';
 import test    from 'ava';
+import fs      from 'fs';
 
 import plugin from './';
 
@@ -11,6 +12,10 @@ function run(t, input, output, opts = { }) {
         });
 }
 
+function read(name) {
+  return fs.readFileSync(name, "utf8")
+}
+
 /* Write tests here
 
 test('does something', t => {
@@ -20,5 +25,5 @@ test('does something', t => {
 */
 
 test('does something', t => {
-    return run(t, 'a{ }', 'a{ }', { });
+  return run(t, 'a{ }', 'a{ }', { });
 });
