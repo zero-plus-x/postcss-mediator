@@ -63,6 +63,34 @@ module.exports = postcss.plugin('postcss-mediator', function (opts) {
 
       console.log(mediatorOutputRules)
 
+      for(var mode in mediatorOutputRules) {
+        var artifacts = mode.split('.')
 
+        var mediaq = '@media '
+        for (var i in artifacts) {
+          if (i > 0) {
+            mediaq += 'and '
+          }
+
+          mediaq += '('+ mediatorModes[artifacts[i]] +') '
+        }
+        mediaq += "{"
+
+        for (var element in mediatorOutputRules[mode]){
+
+          mediaq += element + ' {';
+
+          for (var prop in mediatorOutputRules[mode][element]){
+            mediaq += prop + ': ' + mediatorOutputRules[mode][element][prop] + ';'
+          }
+
+          mediaq += '}'
+
+        }
+
+        mediaq += '}'
+
+        css.append(mediaq);
+      }
     };
 });
