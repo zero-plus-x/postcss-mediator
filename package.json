@@ -1,39 +1,32 @@
 {
   "name": "postcss-mediator",
-  "version": "1.0.0",
-  "description": "A PostCSS plugin to help the development of responsive webapps",
-  "main": "index.js",
-  "scripts": {
-    "test": "node ./test/test.js"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/zero-plus-x/postcss-mediator.git"
-  },
+  "version": "0.0.0",
+  "description": "PostCSS plugin for easy multiscreen handling.",
   "keywords": [
     "postcss",
-    "postcss-mediator",
+    "css",
     "postcss-plugin",
-    "plugin",
-    "inline",
-    "properties",
-    "media",
-    "query",
-    "query",
-    "css"
+    "multiscreen"
   ],
-  "author": "zero-plus-x",
+  "author": "0+X",
   "license": "MIT",
+  "repository": "zero-plus-x/postcss-mediator",
   "bugs": {
     "url": "https://github.com/zero-plus-x/postcss-mediator/issues"
   },
-  "homepage": "https://github.com/zero-plus-x/postcss-mediator#readme",
+  "homepage": "https://github.com/zero-plus-x/postcss-mediator",
   "dependencies": {
-    "postcss": "^5.0.14"
+    "postcss": "^5.0.16"
   },
   "devDependencies": {
-    "gulp": "^3.9.0",
-    "gulp-postcss": "^6.0.1",
-    "gulp-shell": "^0.5.2"
+    "ava": "^0.12.0",
+    "eslint": "^2.1.0",
+    "eslint-config-postcss": "^2.0.0"
+  },
+  "scripts": {
+    "test": "ava && eslint *.js"
+  },
+  "eslintConfig": {
+    "extends": "eslint-config-postcss/es5"
   }
 }

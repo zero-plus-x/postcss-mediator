@@ -1,10 +1,14 @@
-var postcss = require("postcss")
+var postcss = require('postcss');
 
-/**
- * PostCSS plugin - mediator
- */
-module.exports = postcss.plugin("postcss-mediator", function() {
-  return function(style) {
-    
-  }
-})
+module.exports = postcss.plugin('postcss-mediator', function (opts) {
+    opts = opts || {};
+
+    // Work with options here
+
+    return function (css, result) {
+    	css.walkDecls(function (decl) {
+    		console.log(decl);
+    	});
+        // Transform CSS AST here
+    };
+});
