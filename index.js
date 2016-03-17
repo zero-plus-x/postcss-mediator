@@ -9,12 +9,12 @@ module.exports = postcss.plugin('postcss-mediator', function (opts) {
     return function (css, result) {
     	css.walkAtRules(function (rule) {
         if (rule.name == 'mediator') {
-          console.log(rule.params);
-
           var firstSpace = rule.params.indexOf(' ')
           var key = rule.params.substr(0, firstSpace)
           var value = rule.params.substr(firstSpace + 1)
           mediatorModes[key] = value
+
+          rule.remove()
         }
       });
 
@@ -34,12 +34,13 @@ module.exports = postcss.plugin('postcss-mediator', function (opts) {
           return mediatorModes[element] != undefined
         });
 
-        // Have the artifacts ordered to prevent mode mismatching
-        artifacts.sort()
 
     		if (artifacts.length == 0) {
     			return;
     		}
+
+        // Have the artifacts ordered to prevent mode mismatching
+        artifacts.sort()
 
         var ruleMode = artifacts.join('.')
         if(typeof mediatorOutputRules[ruleMode] === 'undefined'){
@@ -52,6 +53,12 @@ module.exports = postcss.plugin('postcss-mediator', function (opts) {
         }
 
         mediatorOutputRules[ruleMode][selector][prop] = decl.value
+
+        if (decl.parent.nodes.length == 1) {
+          decl.parent.remove();
+        }else{
+          decl.remove();
+        }
       });
 
       console.log(mediatorOutputRules)
