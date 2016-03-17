@@ -1,6 +1,7 @@
 /* DESIRED INPUT */
 
 /* Settings */
+/* phone is mediator mode */
 @mediator phone max-width: 200px;
 @mediator tablet max-width: 600px;
 @mediator landscape orientation: landscape;
@@ -8,6 +9,7 @@
 @mediator desktop max-width: 800px;
 
 /* CSS files */
+/* phone.portrait is mediator rules */
 a {
   height: 100px;
   width.phone.portrait: 100%;

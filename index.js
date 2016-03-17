@@ -3,12 +3,13 @@ var postcss = require('postcss');
 module.exports = postcss.plugin('postcss-mediator', function (opts) {
     opts = opts || {};
 
-    mediatorSettings = {}
-    mediatorQueries = {
-      'desktop': [
-        'div.myStyle{ width:100% }'
-      ]
-    }
+    mediatorModes = {};
+	mediatorOutputRules = [];
+    //mediatorQueries = {
+    //  'desktop': [
+    //    'div.myStyle{ width:100% }'
+    //  ]
+    //}
 
     return function (css, result) {
     	css.walkAtRules(function (rule) {
@@ -18,7 +19,7 @@ module.exports = postcss.plugin('postcss-mediator', function (opts) {
           var firstSpace = rule.params.indexOf(' ')
           var key = rule.params.substr(0, firstSpace)
           var value = rule.params.substr(firstSpace + 1)
-          mediatorSettings[key] = value
+          mediatorModes[key] = value
         }
       });
 
@@ -31,10 +32,29 @@ module.exports = postcss.plugin('postcss-mediator', function (opts) {
           return;
         }
 
-        var artifacts = decl.prop.split('.')
-        var prop = artifacts.pop()
-
-        console.log(decl)
+        var artifacts = decl.prop.split('.');
+        var prop = artifacts.pop();
+		var filteredArtifacts = [];
+		
+		for (var fact in artifacts) {
+			if (mediatorModes[artifacts[fact]] == undefined) {
+				continue;
+			}
+			
+			filteredArtifacts.push (artifacts[fact]);
+		}
+		
+		artifacts = filteredArtifacts;
+		
+		if (artifacts.length == 0) {
+			// simple property: no mediator
+		}
+		else {
+			
+			//mediatorOutputRules
+		}
+		
+        console.log(decl);
         console.log(prop)
         console.log(artifacts)
 
