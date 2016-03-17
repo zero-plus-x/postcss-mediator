@@ -1,26 +1,27 @@
 /* OUTPUT */
-@media orientation: portrait (max-width: 200px) {
+
+@media (orientation: portrait) and (max-width: 200px) {
   a {
     height: 100px;
     width: 100%;
   }
 }
 
-@media orientation: landscape (max-width: 200px) {
+@media (orientation: landscape) and (max-width: 200px) {
   a {
     height: 100px;
     width: 50%;
   }
 }
 
-@media orientation: portrait (max-width: 600px) {
+@media (orientation: portrait) and (max-width: 600px) {
   a {
     height: 100px;
     width: 100%;
   }
 }
 
-@media orientation: landscape (max-width: 600px) {
+@media (orientation: landscape) and (max-width: 600px) {
   a {
     height: 100px;
     width: 50%;
