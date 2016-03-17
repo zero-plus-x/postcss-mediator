@@ -4,6 +4,8 @@ import fs      from 'fs';
 
 import plugin from './';
 
+var DATA_DIR='data';
+
 function run(t, input, output, opts = { }) {
   	return postcss([ plugin(opts) ]).process(input)
         .then( result => {
@@ -24,6 +26,6 @@ test('does something', t => {
 
 */
 
-test('does something', t => {
-  return run(t, 'a{ }', 'a{ }', { });
+test('dummy test', t => {
+  return run(t, read (DATA_DIR+'/dummy_test/source.css'), read (DATA_DIR+'/dummy_test/expected.css'), { });
 });
