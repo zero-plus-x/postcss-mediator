@@ -41,12 +41,12 @@ module.exports = postcss.plugin('postcss-mediator', function (opts) {
             }
 
             var selector = decl.parent.selector;
-            var mediatorRuleSelector = mediatorOutputRules[ruleMode][selector];
-            if (typeof mediatorRuleSelector === 'undefined') {
-                mediatorRuleSelector = {};
+            if (typeof mediatorOutputRules[ruleMode][selector] === 'undefined')
+            {
+                mediatorOutputRules[ruleMode][selector] = {};
             }
 
-            mediatorRuleSelector[prop] = decl.value;
+            mediatorOutputRules[ruleMode][selector][prop] = decl.value;
 
             if (decl.parent.nodes.length === 1) {
                 decl.parent.remove();
