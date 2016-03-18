@@ -1,36 +1,42 @@
-/* OUTPUT */
+/* DESIRED INPUT */
 
-@media (orientation: portrait) and (max-width: 200px) {
+/* Settings */
+/* phone is mediator mode */
+
+/* CSS files */
+/* phone.portrait is mediator rules */
+a {
+  height: 100px;
+  display: block;
+}
+@media (max-width: 200px) and (orientation: portrait) {
   a {
-    height: 100px;
     width: 100%;
   }
 }
-
 @media (orientation: landscape) and (max-width: 200px) {
   a {
-    height: 100px;
     width: 50%;
   }
 }
-
 @media (orientation: portrait) and (max-width: 600px) {
   a {
-    height: 100px;
     width: 100%;
   }
 }
-
 @media (orientation: landscape) and (max-width: 600px) {
   a {
-    height: 100px;
     width: 50%;
   }
 }
-
 @media (max-width: 800px) {
   a {
-    height: 100px;
     width: 30%;
+  }
+  div.test {
+    width: 100%;
+  }
+  div#id {
+    width: 80%;
   }
 }

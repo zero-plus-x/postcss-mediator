@@ -1,0 +1,18 @@
+@mediator phone max-width: 200px;
+@mediator portrait orientation: portrait;
+@mediator desktop max-width: 800px;
+
+a {
+  height: 100px;
+  width.phone.portrait: 100%;
+  width.desktop: 30%;
+  display: block;
+}
+
+div.test {
+  width.desktop: 100%;
+}
+
+div#id {
+  width.desktop: 80%;
+}

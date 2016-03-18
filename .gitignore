@@ -1,2 +1,3 @@
 node_modules/
 OLD/
+test/fixtures/*.actual.css
