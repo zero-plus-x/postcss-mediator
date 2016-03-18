@@ -3,94 +3,81 @@ var postcss = require('postcss');
 module.exports = postcss.plugin('postcss-mediator', function (opts) {
     opts = opts || {};
 
-    mediatorModes = {};
-  	mediatorOutputRules = {};
+    var mediatorModes = {};
+    var mediatorOutputRules = {};
 
-    return function (css, result) {
-    	css.walkAtRules(function (rule) {
-        if (rule.name == 'mediator') {
-          var firstSpace = rule.params.indexOf(' ')
-          var key = rule.params.substr(0, firstSpace)
-          var value = rule.params.substr(firstSpace + 1)
-          mediatorModes[key] = value
-
-          rule.remove()
-        }
-      });
-
-      css.walkDecls(function(decl, i){
-        // console.log(decl.prop)
-        // console.log(decl.value)
-        // console.log(decl)
-
-        if (decl.prop.indexOf('.') == -1) {
-          return;
-        }
-
-        var artifacts = decl.prop.split('.');
-        var prop = artifacts.shift();
-
-        artifacts = artifacts.filter(function(element){
-          return mediatorModes[element] != undefined
+    return function (css) {
+        css.walkAtRules(function (rule) {
+            if (rule.name === 'mediator') {
+                var firstSpace = rule.params.indexOf(' ');
+                var key = rule.params.substr(0, firstSpace);
+                var value = rule.params.substr(firstSpace + 1);
+                mediatorModes[key] = value;
+                rule.remove();
+            }
         });
 
+        css.walkDecls(function (decl) {
+            if (decl.prop.indexOf('.') === -1) {
+                return;
+            }
 
-    		if (artifacts.length == 0) {
-    			return;
-    		}
+            var artifacts = decl.prop.split('.');
+            var prop = artifacts.shift();
+            artifacts = artifacts.filter(function (element) {
+                return mediatorModes[element] !== undefined;
+            });
 
-        // Have the artifacts ordered to prevent mode mismatching
-        artifacts.sort()
+            if (artifacts.length === 0) {
+                return;
+            }
 
-        var ruleMode = artifacts.join('.')
-        if(typeof mediatorOutputRules[ruleMode] === 'undefined'){
-          mediatorOutputRules[ruleMode] = {}
+            // Have the artifacts ordered to prevent mode mismatching
+            artifacts.sort();
+
+            var ruleMode = artifacts.join('.');
+            if (typeof mediatorOutputRules[ruleMode] === 'undefined') {
+                mediatorOutputRules[ruleMode] = {};
+            }
+
+            var selector = decl.parent.selector;
+            var mediatorRuleSelector = mediatorOutputRules[ruleMode][selector];
+            if (typeof mediatorRuleSelector === 'undefined') {
+                mediatorRuleSelector = {};
+            }
+
+            mediatorRuleSelector[prop] = decl.value;
+
+            if (decl.parent.nodes.length === 1) {
+                decl.parent.remove();
+            } else {
+                decl.remove();
+            }
+        });
+
+        for (var mode in mediatorOutputRules) {
+            var artifacts = mode.split('.');
+            var mediaq = '@media ';
+            for (var i in artifacts) {
+                if (i > 0) {
+                    mediaq += 'and ';
+                }
+                mediaq += '(' + mediatorModes[artifacts[i]] + ') ';
+            }
+            mediaq += '{';
+
+            for (var element in mediatorOutputRules[mode]) {
+                mediaq += element + ' {';
+                for (var prop in mediatorOutputRules[mode][element]) {
+                    mediaq += prop + ': ';
+                    mediaq += mediatorOutputRules[mode][element][prop] + ';';
+                }
+                mediaq += '}';
+            }
+
+            mediaq += '}';
+
+            css.append(mediaq);
         }
-
-        var selector = decl.parent.selector
-        if(typeof mediatorOutputRules[ruleMode][selector] === 'undefined'){
-          mediatorOutputRules[ruleMode][selector] = {}
-        }
-
-        mediatorOutputRules[ruleMode][selector][prop] = decl.value
-
-        if (decl.parent.nodes.length == 1) {
-          decl.parent.remove();
-        }else{
-          decl.remove();
-        }
-      });
-
-      console.log(mediatorOutputRules)
-
-      for(var mode in mediatorOutputRules) {
-        var artifacts = mode.split('.')
-
-        var mediaq = '@media '
-        for (var i in artifacts) {
-          if (i > 0) {
-            mediaq += 'and '
-          }
-
-          mediaq += '('+ mediatorModes[artifacts[i]] +') '
-        }
-        mediaq += "{"
-
-        for (var element in mediatorOutputRules[mode]){
-
-          mediaq += element + ' {';
-
-          for (var prop in mediatorOutputRules[mode][element]){
-            mediaq += prop + ': ' + mediatorOutputRules[mode][element][prop] + ';'
-          }
-
-          mediaq += '}'
-
-        }
-
-        mediaq += '}'
-
-        css.append(mediaq);
-      }
     };
 });
