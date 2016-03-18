@@ -1,30 +1,32 @@
-var postcss = require('postcss');
+'use strict';
 
-module.exports = postcss.plugin('postcss-mediator', function (opts) {
+let postcss = require('postcss');
+
+module.exports = postcss.plugin('postcss-mediator', opts => {
     opts = opts || {};
 
-    var mediatorModes = {};
-    var mediatorOutputRules = {};
+    let mediatorModes = {};
+    let mediatorOutputRules = {};
 
     return function (css) {
-        css.walkAtRules(function (rule) {
+        css.walkAtRules(rule => {
             if (rule.name === 'mediator') {
-                var firstSpace = rule.params.indexOf(' ');
-                var key = rule.params.substr(0, firstSpace);
-                var value = rule.params.substr(firstSpace + 1);
+                let firstSpace = rule.params.indexOf(' ');
+                let key = rule.params.substr(0, firstSpace);
+                let value = rule.params.substr(firstSpace + 1);
                 mediatorModes[key] = value;
                 rule.remove();
             }
         });
 
-        css.walkDecls(function (decl) {
+        css.walkDecls(decl => {
             if (decl.prop.indexOf('.') === -1) {
                 return;
             }
 
-            var artifacts = decl.prop.split('.');
-            var prop = artifacts.shift();
-            artifacts = artifacts.filter(function (element) {
+            let artifacts = decl.prop.split('.');
+            let prop = artifacts.shift();
+            artifacts = artifacts.filter(element => {
                 return mediatorModes[element] !== undefined;
             });
 
@@ -35,14 +37,14 @@ module.exports = postcss.plugin('postcss-mediator', function (opts) {
             // Have the artifacts ordered to prevent mode mismatching
             artifacts.sort();
 
-            var ruleMode = artifacts.join('.');
+            let ruleMode = artifacts.join('.');
             if (typeof mediatorOutputRules[ruleMode] === 'undefined') {
                 mediatorOutputRules[ruleMode] = {};
             }
 
-            var selector = decl.parent.selector;
-            if (typeof mediatorOutputRules[ruleMode][selector] === 'undefined')
-            {
+            let selector = decl.parent.selector;
+            let mediatorRuleSelector = mediatorOutputRules[ruleMode][selector];
+            if (typeof mediatorRuleSelector === 'undefined') {
                 mediatorOutputRules[ruleMode][selector] = {};
             }
 
@@ -55,10 +57,10 @@ module.exports = postcss.plugin('postcss-mediator', function (opts) {
             }
         });
 
-        for (var mode in mediatorOutputRules) {
-            var artifacts = mode.split('.');
-            var mediaq = '@media ';
-            for (var i in artifacts) {
+        for (let mode in mediatorOutputRules) {
+            let artifacts = mode.split('.');
+            let mediaq = '@media ';
+            for (let i in artifacts) {
                 if (i > 0) {
                     mediaq += 'and ';
                 }
@@ -66,9 +68,9 @@ module.exports = postcss.plugin('postcss-mediator', function (opts) {
             }
             mediaq += '{';
 
-            for (var element in mediatorOutputRules[mode]) {
+            for (let element in mediatorOutputRules[mode]) {
                 mediaq += element + ' {';
-                for (var prop in mediatorOutputRules[mode][element]) {
+                for (let prop in mediatorOutputRules[mode][element]) {
                     mediaq += prop + ': ';
                     mediaq += mediatorOutputRules[mode][element][prop] + ';';
                 }
