@@ -7,6 +7,7 @@
 [ci]:      https://travis-ci.org/Nek/postcss-mediator
 
 ```css
+/* CSS Input */
 /* Settings */
 /* lowres is a 'mediator mode' */
 @mediator lowres max-width: 768px;
@@ -16,7 +17,7 @@
 @mediator portrait orientation: portrait;
 
 /* CSS files */
-/* phone.portrait is mediator rules */
+/* phone.portrait is a 'mediator rule' */
 a {
   height: 100px;
   width.lowres.portrait: 100%;
@@ -36,8 +37,7 @@ div {
 ```
 
 ```css
-/* CSS files */
-/* phone.portrait is mediator rules */
+/* CSS output */
 a {
   height: 100px;
   display: block;
