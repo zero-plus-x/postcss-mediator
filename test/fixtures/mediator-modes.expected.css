@@ -1,0 +1,20 @@
+a {
+  height: 100px;
+  display: block;
+}
+@media (max-width: 200px) and (orientation: portrait) {
+  a {
+    width: 100%;
+  }
+}
+@media (max-width: 800px) {
+  a {
+    width: 30%;
+  }
+  div.test {
+    width: 100%;
+  }
+  div#id {
+    width: 80%;
+  }
+}

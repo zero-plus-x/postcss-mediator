@@ -13,8 +13,17 @@
 a {
   height: 100px;
   width.phone.portrait: 100%;
-  width.phone.landscape: 50%;
+  width.phone.landscape.banana: 50%;
   width.tablet.portrait: 100%;
-  width.tablet.landscape: 50%;
+  width.bacon.tablet.landscape: 50%;
   width.desktop: 30%;
+  display: block;
+}
+
+div.test {
+  width.desktop: 100%;
+}
+
+div#id {
+  width.desktop: 80%;
 }
