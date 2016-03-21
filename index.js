@@ -71,11 +71,7 @@ module.exports = postcss.plugin('postcss-mediator', opts => {
         return mediatorOutputRules;
     }
 
-    return function (css) {
-        let mediatorModes = extractModes(css);
-
-        let mediatorOutputRules =  extractRules(mediatorModes, css);
-
+    function mutateCSS(mediatorModes, mediatorOutputRules, css) {
         for (let mode in mediatorOutputRules) {
             let artifacts = mode.split('.');
             let mediaq = '@media ';
@@ -97,8 +93,15 @@ module.exports = postcss.plugin('postcss-mediator', opts => {
             }
 
             mediaq += '}';
-
             css.append(mediaq);
         }
+    }
+
+    return function (css) {
+        let mediatorModes = extractModes(css);
+
+        let mediatorOutputRules =  extractRules(mediatorModes, css);
+
+        mutateCSS(mediatorModes, mediatorOutputRules, css);
     };
 });
