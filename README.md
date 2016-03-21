@@ -115,6 +115,57 @@ grunt.initConfig({
 });
 ```
 
+## Coding
+
+Mediator **modes** will be translated into **one** `@media` query expression
+each.
+
+```css
+/* Mediator Modes */
+@mediator lowres max-width: 768px;
+@mediator mediumres max-width: 1024px;
+@mediator highres max-width: 2560px;
+@mediator landscape orientation: landscape;
+@mediator portrait orientation: portrait;
+```
+
+It's possible to combine different modes when setting up the element's
+properties:
+
+```css
+div.example {
+  width: 100%;
+  width.highres: 30%;
+  width.mediumres: 50%;
+  width.lowres.portrait: 100%;
+  width.lowres.landscape: 50%;
+}
+
+/* The above code will output: */
+div.example {
+  width: 100%;
+}
+@media (max-width: 2560px) {
+  div.example {
+    width: 30%;
+  }
+}
+@media (max-width: 1024px) {
+  div.example {
+    width: 50%;
+  }
+}
+@media (max-width: 768px) and (orientation: portrait) {
+  div.example {
+    width: 100%;
+  }
+}
+@media (max-width: 768px) and (orientation: landscape) {
+  div.example {
+    width: 50%;
+  }
+}
+```
 
 
 
