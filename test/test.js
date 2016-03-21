@@ -37,6 +37,6 @@ function compareFixtures(t, name, msg, opts, postcssOpts) {
 
 test('@mediator', t => {
     return compareFixtures(t,
-      'mediator-modes',
+      'modes',
       'should create specific media queries');
 });
