@@ -40,9 +40,3 @@ test('@mediator', t => {
       'mediator-modes',
       'should create specific media queries');
 });
-
-test('feedback_widget', t => {
-    return compareFixtures(t,
-      'feedback_widget/css/style.mediator',
-      'should generate final CSS file');
-});
