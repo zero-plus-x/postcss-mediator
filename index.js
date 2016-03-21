@@ -5,21 +5,25 @@ let postcss = require('postcss');
 module.exports = postcss.plugin('postcss-mediator', opts => {
     opts = opts || {};
 
-    let mediatorModes = {};
-    let mediatorOutputRules = {};
+    function extractOneMode(mediatorModes, rule) {
+        if (rule.name === 'mediator') {
+            let firstSpace = rule.params.indexOf(' ');
+            let key = rule.params.substr(0, firstSpace);
+            let value = rule.params.substr(firstSpace + 1);
+            mediatorModes[key] = value;
+            rule.remove();
+        }
+    }
 
-    return function (css) {
-        css.walkAtRules(rule => {
-            if (rule.name === 'mediator') {
-                let firstSpace = rule.params.indexOf(' ');
-                let key = rule.params.substr(0, firstSpace);
-                let value = rule.params.substr(firstSpace + 1);
-                mediatorModes[key] = value;
-                rule.remove();
-            }
-        });
+    function extractModes(css) {
+        let mediatorModes = {};
+        let extractor = extractOneMode.bind(this, mediatorModes);
+        css.walkAtRules(extractor);
+        return mediatorModes;
+    }
 
-        css.walkDecls(decl => {
+    function extractOneRule(mediatorModes, mediatorOutputRules, decl) {
+        {
             if (decl.prop.indexOf('.') === -1) {
                 return;
             }
@@ -55,7 +59,22 @@ module.exports = postcss.plugin('postcss-mediator', opts => {
             } else {
                 decl.remove();
             }
-        });
+        }
+    }
+
+    function extractRules(mediatorModes, css) {
+        let mediatorOutputRules = {};
+        let extractor = extractOneRule.bind(this,
+            mediatorModes,
+            mediatorOutputRules);
+        css.walkDecls(extractor);
+        return mediatorOutputRules;
+    }
+
+    return function (css) {
+        let mediatorModes = extractModes(css);
+
+        let mediatorOutputRules =  extractRules(mediatorModes, css);
 
         for (let mode in mediatorOutputRules) {
             let artifacts = mode.split('.');
