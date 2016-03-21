@@ -23,42 +23,40 @@ module.exports = postcss.plugin('postcss-mediator', opts => {
     }
 
     function extractOneRule(mediatorModes, mediatorOutputRules, decl) {
-        {
-            if (decl.prop.indexOf('.') === -1) {
-                return;
-            }
+        if (decl.prop.indexOf('.') === -1) {
+            return;
+        }
 
-            let artifacts = decl.prop.split('.');
-            let prop = artifacts.shift();
-            artifacts = artifacts.filter(element => {
-                return mediatorModes[element] !== undefined;
-            });
+        let artifacts = decl.prop.split('.');
+        let prop = artifacts.shift();
+        artifacts = artifacts.filter(element => {
+            return mediatorModes[element] !== undefined;
+        });
 
-            if (artifacts.length === 0) {
-                return;
-            }
+        if (artifacts.length === 0) {
+            return;
+        }
 
-            // Have the artifacts ordered to prevent mode mismatching
-            artifacts.sort();
+        // Have the artifacts ordered to prevent mode mismatching
+        artifacts.sort();
 
-            let ruleMode = artifacts.join('.');
-            if (typeof mediatorOutputRules[ruleMode] === 'undefined') {
-                mediatorOutputRules[ruleMode] = {};
-            }
+        let ruleMode = artifacts.join('.');
+        if (typeof mediatorOutputRules[ruleMode] === 'undefined') {
+            mediatorOutputRules[ruleMode] = {};
+        }
 
-            let selector = decl.parent.selector;
-            let mediatorRuleSelector = mediatorOutputRules[ruleMode][selector];
-            if (typeof mediatorRuleSelector === 'undefined') {
-                mediatorOutputRules[ruleMode][selector] = {};
-            }
+        let selector = decl.parent.selector;
+        let mediatorRuleSelector = mediatorOutputRules[ruleMode][selector];
+        if (typeof mediatorRuleSelector === 'undefined') {
+            mediatorOutputRules[ruleMode][selector] = {};
+        }
 
-            mediatorOutputRules[ruleMode][selector][prop] = decl.value;
+        mediatorOutputRules[ruleMode][selector][prop] = decl.value;
 
-            if (decl.parent.nodes.length === 1) {
-                decl.parent.remove();
-            } else {
-                decl.remove();
-            }
+        if (decl.parent.nodes.length === 1) {
+            decl.parent.remove();
+        } else {
+            decl.remove();
         }
     }
 
