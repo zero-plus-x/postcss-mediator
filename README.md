@@ -3,9 +3,8 @@
 [PostCSS-Mediator] is a [PostCSS] plugin to simplify responsive CSS
 writing.
 
-Don't ever worry again about finding element's properties scattered across
-several different `@media` queries. Have them **all in one place**: the
-element's style declaration itself!
+**Its main purpose** is to keep all properties for each CSS selector in one
+place instead of scattered across several different `@media` queries. 
 
 ## I/O Example
 
