@@ -160,6 +160,11 @@ div.example {
 
 If you do not specify any media types `all` will be used by default.
 
+For `not` and `only` type accesssors just precede the type with the accessor plus `_`, e.g.
+
+ - `not_screen`
+ - `only_print`
+
 ### Media expressions
 
 Each Mediator **mode** generates **one** media expression. Modes are defined using `@mediator` notation:

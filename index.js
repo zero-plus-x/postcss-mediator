@@ -117,7 +117,7 @@ module.exports = postcss.plugin('postcss-mediator', opts => {
             for (let i in artifacts) {
                 if (parseInt(i) === 0) {
                     // Media type
-                    mediaq += artifacts[i] + ' ';
+                    mediaq += artifacts[i].replace(/_/g, ' ') + ' ';
                 } else {
                     // Mediator mode (media expression)
                     mediaq += 'and ';
