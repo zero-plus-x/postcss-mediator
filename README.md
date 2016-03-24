@@ -3,12 +3,12 @@
 [PostCSS-Mediator] is a [PostCSS] plugin to simplify responsive CSS
 writing.
 
-**Its main purpose** is to keep all properties for each CSS selector in one
+**It's main purpose** is to keep all properties for each CSS selector in one
 place instead of scattered across several different `@media` queries. 
 
 ## I/O Example
 
-### You'll input:
+### Input:
 
 ```css
 @mediator lowres max-width: 768px;
@@ -33,7 +33,7 @@ div#id {
 }
 ```
 
-### PostCSS-Mediator will output:
+### Output:
 
 ```css
 a {
