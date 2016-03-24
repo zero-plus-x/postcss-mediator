@@ -67,17 +67,20 @@ module.exports = postcss.plugin('postcss-mediator', opts => {
             return mediatorModes[element] !== undefined;
         });
 
-        if (modes.length === 0) {
+        if (modes.length === 0 && mediaTypes.length === 1 &&
+            mediaTypes[0] === 'all') {
             return;
         }
 
         // Have the modes ordered to prevent mode mismatching
         modes.sort();
 
-        // Create unique string to repesent mode
-        let ruleMode = modes.join('.');
+        // Create unique string to repesent the mode
         // Currently only one media type is supported per declaration
-        ruleMode = mediaTypes[0] + '.' + ruleMode;
+        let ruleMode = mediaTypes[0];
+        if (modes.length > 0) {
+            ruleMode += '.' + modes.join('.');
+        }
 
         if (typeof mediatorOutputRules[ruleMode] === 'undefined') {
             mediatorOutputRules[ruleMode] = {};
