@@ -109,10 +109,14 @@ module.exports = postcss.plugin('postcss-mediator', opts => {
             let artifacts = mode.split('.');
             let mediaq = '@media ';
             for (let i in artifacts) {
-                if (i > 0) {
+                if (i === 0) {
+                    // Media type
+                    mediaq += artifacts[i] + ' ';
+                } else {
+                    // Mediator mode (media expression)
                     mediaq += 'and ';
+                    mediaq += '(' + mediatorModes[artifacts[i]] + ') ';
                 }
-                mediaq += '(' + mediatorModes[artifacts[i]] + ') ';
             }
             mediaq += '{';
 
