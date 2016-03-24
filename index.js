@@ -39,20 +39,43 @@ module.exports = postcss.plugin('postcss-mediator', opts => {
             return;
         }
 
-        let artifacts = decl.prop.split('.');
-        let prop = artifacts.shift();
-        artifacts = artifacts.filter(element => {
+        // Breaks the property declaration to extract its modes
+        let modes = decl.prop.split('.');
+        // First element is the propety
+        let prop = modes.shift();
+
+        // Check if any of the modes is actually a media type
+        let mediaTypes = modes.filter(element => {
+            return mediaRegexMatch.test(element);
+        });
+
+        // If so, remove media types from modes array
+        if (mediaTypes.length > 0) {
+            modes = modes.filter(element => {
+                return mediaTypes.indexOf(element) === -1;
+            });
+        } else {
+            // Default media type
+            mediaTypes = ['all'];
+        }
+
+        // Filter modes to make sure only pre-defined modes will be used
+        modes = modes.filter(element => {
             return mediatorModes[element] !== undefined;
         });
 
-        if (artifacts.length === 0) {
+        if (modes.length === 0) {
             return;
         }
 
-        // Have the artifacts ordered to prevent mode mismatching
-        artifacts.sort();
+        // Have the modes ordered to prevent mode mismatching
+        modes.sort();
 
-        let ruleMode = artifacts.join('.');
+        // Create unique string to repesent mode
+        let ruleMode = modes.join('.');
+        // Currently only one media type is supported per declaration
+        ruleMode = mediaTypes[0] + '.' + ruleMode;
+
         if (typeof mediatorOutputRules[ruleMode] === 'undefined') {
             mediatorOutputRules[ruleMode] = {};
         }
