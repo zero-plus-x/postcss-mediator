@@ -1,18 +1,16 @@
-@mediator phone max-width: 200px;
-@mediator portrait orientation: portrait;
-@mediator desktop max-width: 800px;
-
-a {
-  height: 100px;
-  width.phone.portrait: 100%;
-  width.desktop: 30%;
-  display: block;
-}
-
-div.test {
-  width.desktop: 100%;
-}
-
-div#id {
-  width.desktop: 80%;
+/* Using BootstrapCSS guidelines for examples http://getbootstrap.com/css */
+@mediator small_min min-width: 768px;
+@mediator small_max max-width: 991px;
+@mediator medium min-width: 992px;
+@mediator large min-width: 1200px;
+div.container {
+  padding-right: 15px;
+  padding-left: 15px;
+  margin-right: auto;
+  margin-left: auto;
+  border.print: 1px solid #000;
+  width.small_min.small_max: 750px;
+  width.medium: 970px;
+  width.large.screen: 1170px;
+  width.print: 920px;
 }
