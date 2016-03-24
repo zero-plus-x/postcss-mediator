@@ -4,7 +4,7 @@
 writing.
 
 **It's main purpose** is to keep all properties for each CSS selector in one
-place instead of scattered across several different `@media` queries. 
+place instead of scattered across several different `@media` queries.
 
 ## I/O Example
 
@@ -70,7 +70,7 @@ a {
 }
 ```
 
-## Usage
+## Installation
 
 1. Add [PostCSS] to your build tool.
 1. Add [PostCSS-Mediator] as a PostCSS process.
@@ -85,7 +85,7 @@ your project's `package.json`._
 ### Node
 
 ```js
-postcss([ require('postcss-conic-gradient')() ])
+postcss([ require('postcss-mediator')() ])
 ```
 
 ### Grunt
@@ -105,22 +105,70 @@ grunt.initConfig({
 	postcss: {
 		options: {
 			processors: [
-            // ... ,
 				require('postcss-mediator')()
 			]
 		},
-        // ...
 	}
 });
 ```
 
-## Coding
+## Usage
 
-Mediator **modes** will be translated into **one** `@media` query expression
-each.
+Very simply put, media queries [syntax](https://www.w3.org/TR/css3-mediaqueries/#syntax) consists of media _types_ and _expressions_.
+[Example](http://www.w3schools.com/css/css3_mediaqueries.asp):
 
 ```css
-/* Mediator Modes */
+@media not|only mediatype and (expressions) {
+    CSS-Code;
+}
+```
+### Media Type
+
+Simply choose from any [recognized media type](https://www.w3.org/TR/CSS21/media.html#media-types) and add it to your CSS properties.
+
+```css
+div.example {
+  width: 100%;
+  width.screen: 98%;
+  width.print: 60%;
+  border.only_print: 1px solid #000;
+}
+```
+
+Will output:
+
+```css
+div.example {
+  width: 100%;
+}
+@media screen {
+  div.example {
+    width: 98%;
+  }
+}
+@media print {
+  div.example {
+    width: 60%;
+  }
+}
+@media only print {
+  div.example {
+    border: 1px solid #000;
+  }
+}
+```
+
+If you do not specify any media types `all` will be used by default.
+
+### Media expressions
+
+Each Mediator **mode** generates **one** media expression. Modes are defined using `@mediator` notation:
+
+```
+@mediator MEDIATOR_NAME MEDIA_QUERY_EXPRESSION;
+```
+
+```
 @mediator lowres max-width: 768px;
 @mediator mediumres max-width: 1024px;
 @mediator highres max-width: 2560px;
@@ -128,8 +176,9 @@ each.
 @mediator portrait orientation: portrait;
 ```
 
-It's possible to combine different modes when setting up the element's
-properties:
+:warning: **Please note:** modes names **must not** match media types `(all|screen|print|...)`.
+
+It's possible to combine different modes when setting up the element's properties:
 
 ```css
 div.example {
@@ -139,8 +188,11 @@ div.example {
   width.lowres.portrait: 100%;
   width.lowres.landscape: 50%;
 }
+```
 
-/* The above code will output: */
+Will output:
+
+```
 div.example {
   width: 100%;
 }
@@ -166,8 +218,13 @@ div.example {
 }
 ```
 
+## Contributing
 
+// TODO
 
+## License
+
+// TOOD
 
 [PostCSS-Mediator]: https://github.com/zero-plus-x/postcss-mediator
 [PostCSS]: https://github.com/postcss/postcss
