@@ -5,12 +5,6 @@ div.container {
   margin-right: auto;
   margin-left: auto;
 }
-@media print {
-  div.container {
-    border: 1px solid #000;
-    width: 920px;
-  }
-}
 @media all and (max-width: 991px) and (min-width: 768px) {
   div.container {
     width: 750px;
@@ -24,5 +18,15 @@ div.container {
 @media screen and (min-width: 1200px) {
   div.container {
     width: 1170px;
+  }
+}
+@media print {
+  div.container {
+    width: 920px;
+  }
+}
+@media only print {
+  div.container {
+    border: 1px solid #000;
   }
 }

@@ -7,7 +7,7 @@ module.exports = postcss.plugin('postcss-mediator', opts => {
 
     let supportedMediaTypes = ['all', 'aural', 'braille', 'handheld', 'print',
             'projection', 'screen', 'tty', 'tv', 'embossed'];
-    let mediaRegexMatch = new RegExp('^((not|only)_)?' +
+    let mediaRegexMatch = new RegExp('^((not|only)-)?' +
             supportedMediaTypes.join('|') + '$', 'i');
 
     function extractOneMode(mediatorModes, rule) {
@@ -117,7 +117,7 @@ module.exports = postcss.plugin('postcss-mediator', opts => {
             for (let i in artifacts) {
                 if (parseInt(i) === 0) {
                     // Media type
-                    mediaq += artifacts[i].replace(/_/g, ' ') + ' ';
+                    mediaq += artifacts[i].replace(/-/g, ' ') + ' ';
                 } else {
                     // Mediator mode (media expression)
                     mediaq += 'and ';

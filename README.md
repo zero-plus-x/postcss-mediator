@@ -131,7 +131,7 @@ div.example {
   width: 100%;
   width.screen: 98%;
   width.print: 60%;
-  border.only_print: 1px solid #000;
+  border.only-print: 1px solid #000;
 }
 ```
 
@@ -160,10 +160,10 @@ div.example {
 
 If you do not specify any media types `all` will be used by default.
 
-For `not` and `only` type accesssors just precede the type with the accessor plus `_`, e.g.
+For `not` and `only` type accesssors just precede the type with the accessor plus dash `-`, e.g.
 
- - `not_screen`
- - `only_print`
+ - `not-screen`
+ - `only-print`
 
 ### Media expressions
 
