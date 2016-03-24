@@ -5,11 +5,23 @@ let postcss = require('postcss');
 module.exports = postcss.plugin('postcss-mediator', opts => {
     opts = opts || {};
 
+    let mediaRegexMatch = /^((not|only)_)?(all|screen|print|speech)$/i;
+
     function extractOneMode(mediatorModes, rule) {
         if (rule.name === 'mediator') {
             let firstSpace = rule.params.indexOf(' ');
             let key = rule.params.substr(0, firstSpace);
             let value = rule.params.substr(firstSpace + 1);
+
+            // Make sure mediator modes are not named after media types
+            // to avoid possible conflicts
+            if (mediaRegexMatch.test(key)) {
+                throw rule.error('Naming a Mediator Mode after a media ' +
+                    'type (all, screen, print, speech) may cause undesired ' +
+                    'conflicts. Please rename it.',
+                    { plugin: 'postcss-mediator' });
+            }
+
             mediatorModes[key] = value;
             rule.remove();
         }
