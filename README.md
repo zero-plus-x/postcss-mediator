@@ -229,7 +229,7 @@ div.example {
 
 ## License
 
-// TOOD
+// TODO
 
 [PostCSS-Mediator]: https://github.com/zero-plus-x/postcss-mediator
 [PostCSS]: https://github.com/postcss/postcss
